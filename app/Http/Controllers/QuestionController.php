@@ -9,6 +9,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Gate;
 
 class QuestionController extends Controller
 {
@@ -63,10 +64,13 @@ class QuestionController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Question $question
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function edit(Question $question)
     {
+        if(Gate::denies('update-question', $question)) {
+            return abort(403, 'Access denice');
+        }
         return view('questions.edit', compact('question'));
     }
 
@@ -75,10 +79,13 @@ class QuestionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param Question $question
-     * @return Application|RedirectResponse|Redirector
+     * @return Application|RedirectResponse|Redirector|void
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        if(Gate::denies('update-question', $question)) {
+            return abort(403, 'Access denice');
+        }
         $question->update($request->only('title', 'body'));
         return redirect('/questions');
     }
@@ -87,11 +94,14 @@ class QuestionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Question $question
-     * @return Application|RedirectResponse|Redirector
+     * @return Application|RedirectResponse|Redirector|void
      * @throws Exception
      */
     public function destroy(Question $question)
     {
+        if(Gate::denies('delete-question', $question)) {
+            return abort(403, 'Access denice');
+        }
         $question->delete();
         return redirect('/questions');
     }
