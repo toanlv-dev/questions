@@ -15,7 +15,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "laravelcollective/html": "^6.1"
+        "laravelcollective/html": "^6.1",
+        "parsedown/laravel": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
