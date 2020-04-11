@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AskQuestionRequest;
 use App\Question;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class QuestionController extends Controller
 {
@@ -35,7 +39,7 @@ class QuestionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(AskQuestionRequest $request)
     {
@@ -46,7 +50,7 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param Question $question
      * @return \Illuminate\Http\Response
      */
     public function show(Question $question)
@@ -57,7 +61,7 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param Question $question
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Question $question)
@@ -69,8 +73,8 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Question  $question
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param Question $question
+     * @return Application|RedirectResponse|Redirector
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
@@ -81,11 +85,13 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
+     * @param Question $question
+     * @return Application|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect('/questions');
     }
 }

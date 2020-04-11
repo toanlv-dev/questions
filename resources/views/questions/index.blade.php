@@ -42,6 +42,9 @@
                                         </h3>
                                         <div class="ml-auto">
                                             <a class="btn btn-outline-info btn-sm" href="{!! route('questions.edit', $question->id) !!}">Edit</a>
+                                            {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'DELETE', 'class' => 'form-delete']) !!}
+                                            {!! Form::submit('delete',['class' => 'btn btn-sm btn-outline-danger', 'onclick' => 'return confirm("Are you sure?")']) !!}
+                                            {!! Form::close() !!}
                                         </div>
                                     </div>
                                     <p class="lead">
