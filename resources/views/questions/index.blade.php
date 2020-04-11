@@ -41,14 +41,14 @@
                                             <a href="{{ $question->url }}">{{ $question->title }}</a>
                                         </h3>
                                         <div class="ml-auto">
-                                            @if(\Auth::user() && \Auth::user()->can('update-question', $question))
+                                            @can('update', $question)
                                                 <a class="btn btn-outline-info btn-sm" href="{!! route('questions.edit', $question->id) !!}">Edit</a>
-                                            @endif
-                                            @if(\Auth::user() && \Auth::user()->can('delete-question', $question))
+                                            @endcan
+                                            @can('delete', $question)
                                                 {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'DELETE', 'class' => 'form-delete']) !!}
                                                 {!! Form::submit('delete',['class' => 'btn btn-sm btn-outline-danger', 'onclick' => 'return confirm("Are you sure?")']) !!}
                                                 {!! Form::close() !!}
-                                            @endif
+                                            @endcan
                                         </div>
                                     </div>
                                     <p class="lead">
