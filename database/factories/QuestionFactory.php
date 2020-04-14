@@ -10,7 +10,7 @@ $factory->define(App\Question::class, function (Faker $faker) {
         'title' => $title,
         'body' => $faker->paragraphs(rand(3, 7), true),
         'views' => rand(0, 10),
-        'answers_count' => rand(0, 10),
+//        'answers_count' => rand(0, 10),
         'votes' => rand(-3, 10),
         'slug' => \Illuminate\Support\Str::slug($title)
 
