@@ -32,5 +32,13 @@ class Answer extends Model
         static::created(function ($answer){
             $answer->question->increment('answers_count');
         });
+
+        static::deleted(function (Answer $answer) {
+            $answer->question->decrement('answers_count');
+        });
+    }
+
+    public function getStatusAttribute() {
+        return $this->id === $this->question->best_answer_id ? 'vote-accepted' : '';
     }
 }

@@ -61,10 +61,13 @@ class AnswersController extends Controller
      *
      * @param Question $question
      * @param \App\Answer $answer
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Question $question, Answer $answer)
     {
-        //
+        $this->authorize('delete', $answer);
+        $answer->delete();
+
+        return back()->with('success', 'Answer has been removed!');
     }
 }
