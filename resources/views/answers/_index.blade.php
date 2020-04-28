@@ -17,9 +17,14 @@
                                 <a title="This answer is not useful" class="vote-down off">
                                     <i class="fas fa-caret-down fa-2x"></i>
                                 </a>
-                                <a title="Click to mark as best answer" class="{{ $answer->status }} mt-2">
+                                <a title="Click to mark as best answer"
+                                   class="{{ $answer->status }} mt-2"
+                                   onclick="event.preventDefault();document.getElementById('answers-accept-{{ $answer->id }}').submit();"
+                                >
                                     <i class="fas fa-check fa-2x"></i>
                                 </a>
+                                {{ Form::open(['route' => ['answers.accept', $answer->id], 'id' => 'answers-accept-' . $answer->id, 'style' => 'display: none', 'method' => 'POST']) }}
+                                {{ Form::close() }}
                             </div>
                             <div class="media-body">
                                 {!! $answer->body_html !!}
