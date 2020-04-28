@@ -9,6 +9,7 @@ class AcceptAnswerController extends Controller
 {
     public function __invoke(Answer $answer)
     {
+        $this->authorize('accept', $answer);
         $answer->question->acceptAnswer($answer);
         return back()->with('success', 'Answer has been accept');
     }
