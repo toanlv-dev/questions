@@ -10,7 +10,8 @@
                             <div class="d-flex align-content-center">
                                 <h1> {!! $question->title !!} </h1>
                                 <div class="ml-auto">
-                                    <a href="{{ route('questions.index') }}" class="btn btn-outline-secondary"> Back to all Questions </a>
+                                    <a href="{{ route('questions.index') }}" class="btn btn-outline-secondary"> Back to
+                                        all Questions </a>
                                 </div>
                             </div>
                         </div>
@@ -34,9 +35,11 @@
                                 <div class="float-right">
                                     <span class="mt-2">{!! $question->created_date !!}</span>
                                     <div class="media mt-1">
-                                        <a href="{!! $question->user->url !!}" class="pr-2"><img src="{!! $question->user->avatar !!}"></a>
+                                        <a href="{!! $question->user->url !!}" class="pr-2"><img
+                                                src="{!! $question->user->avatar !!}"></a>
                                         <div class="media-body mt-1">
-                                            <a href="{!! $question->user->url !!}" class="pr-2">{!! $question->user->name !!}</a>
+                                            <a href="{!! $question->user->url !!}"
+                                               class="pr-2">{!! $question->user->name !!}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -50,6 +53,10 @@
         @include('answers._index',[
             'answers' => $question->answers,
             'answers_count' => $question->answers_count
+        ])
+
+        @include('answers._create',[
+            'question' => $question
         ])
     </div>
 @endsection
