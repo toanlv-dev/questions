@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Question;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AnswersController extends Controller
 {
@@ -13,14 +18,14 @@ class AnswersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Question $question, Request $request)
     {
         $question->answers()->create($request->validate([
-            'body' => 'required'
-        ]) + ['user_id' => \Auth::id()]);
+                'body' => 'required'
+            ]) + ['user_id' => \Auth::id()]);
 
         return back()->with('success', 'Your answer has been submited successfully');
     }
@@ -30,8 +35,9 @@ class AnswersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Question $question
-     * @param \App\Answer $answer
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param Answer $answer
+     * @return Application|Factory|View
+     * @throws AuthorizationException
      */
     public function edit(Question $question, Answer $answer)
     {
@@ -42,10 +48,11 @@ class AnswersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Question $question
-     * @param \App\Answer $answer
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Answer $answer
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function update(Request $request, Question $question, Answer $answer)
     {
@@ -60,8 +67,9 @@ class AnswersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Question $question
-     * @param \App\Answer $answer
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Answer $answer
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function destroy(Question $question, Answer $answer)
     {
