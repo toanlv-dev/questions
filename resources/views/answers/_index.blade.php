@@ -10,13 +10,25 @@
                         <div class="media">
 
                             <div class="d-flex flex-column vote-controls">
-                                <a title="This answer is useful" class="vote-up">
+                                <a title="This answer is useful"
+                                    class="vote-up {{ auth()->guest()? 'off' : '' }}"
+                                    onclick="event.preventDefault();document.getElementById('vote-up-answer-{{ $answer->id }}').submit();"
+                                >
                                     <i class="fas fa-caret-up fa-2x"> </i>
                                 </a>
-                                <span class="votes-count">123</span>
-                                <a title="This answer is not useful" class="vote-down off">
+                                {{ Form::open(['url' => 'answers/'. $answer->id .'/vote', 'id' => 'vote-up-answer-' . $answer->id, 'style' => 'display: none', 'method' => 'POST']) }}
+                                {{ Form::hidden('vote', 1) }}
+                                {{ Form::close() }}
+                                <span class="votes-count">{{ $answer->votes_count }}</span>
+                                <a title="This answer is not useful"
+                                    class="vote-down {{ auth()->guest()? 'off' : '' }}"
+                                    onclick="event.preventDefault();document.getElementById('vote-down-answer-{{ $answer->id }}').submit();"
+                                >
                                     <i class="fas fa-caret-down fa-2x"></i>
                                 </a>
+                                {{ Form::open(['url' => 'answers/'. $answer->id .'/vote', 'id' => 'vote-down-answer-' . $answer->id, 'style' => 'display: none', 'method' => 'POST']) }}
+                                {{ Form::hidden('vote', -1) }}
+                                {{ Form::close() }}
                                 @can('accept', $answer)
                                     <a title="Click to mark as best answer"
                                        class="{{ $answer->status }} mt-2"

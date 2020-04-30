@@ -18,13 +18,25 @@
                         <hr>
                         <div class="media">
                             <div class="d-flex flex-column vote-controls">
-                                <a title="This question is useful" class="vote-up">
+                                <a title="This question is useful"
+                                   class="vote-up {{ auth()->guest()? 'off' : '' }}"
+                                   onclick="event.preventDefault();document.getElementById('vote-up-question-{{ $question->id }}').submit();"
+                                >
                                     <i class="fas fa-caret-up fa-2x"> </i>
                                 </a>
-                                <span class="votes-count">123</span>
-                                <a title="This question is not useful" class="vote-down off">
+                                {{ Form::open(['url' => '/questions/'. $question->id .'/vote', 'id' => 'vote-up-question-' . $question->id, 'style' => 'display: none', 'method' => 'POST']) }}
+                                {{ Form::hidden('vote', 1) }}
+                                {{ Form::close() }}
+                                <span class="votes-count">{{ $question->votes_count }}</span>
+                                <a title="This question is not useful"
+                                   class="vote-down {{auth()->guest()? 'off' : ''}}"
+                                   onclick="event.preventDefault();document.getElementById('vote-down-question-{{ $question->id }}').submit();"
+                                >
                                     <i class="fas fa-caret-down fa-2x"></i>
                                 </a>
+                                {{ Form::open(['url' => '/questions/'. $question->id .'/vote', 'id' => 'vote-down-question-' . $question->id, 'style' => 'display: none', 'method' => 'POST']) }}
+                                {{ Form::hidden('vote', -1) }}
+                                {{ Form::close() }}
                                 <a title="Click to mark as favorite Question"
                                    class="favorite mt-2 {{ \Illuminate\Support\Facades\Auth::guest()? 'off' : ($question->is_favorited? 'favorited' : '')  }}"
                                    onclick="event.preventDefault();document.getElementById('question-favorite-{{ $question->id }}').submit();"

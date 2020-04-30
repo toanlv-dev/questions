@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    public const VOTE_DOWN = -1;
+    public const VOTE_UP = 1;
+
     protected $fillable =[
         'body',
         'user_id'
@@ -49,5 +52,15 @@ class Answer extends Model
     public function votes()
     {
         return $this->morphToMany(User::class, 'votable');
+    }
+
+    public function downVotes()
+    {
+        return $this->votes()->wherePivot('vote', Answer::VOTE_DOWN);
+    }
+
+    public function upVotes()
+    {
+        return $this->votes()->wherePivot('vote', Answer::VOTE_UP);
     }
 }

@@ -93,6 +93,6 @@ class Question extends Model
 
     public function upVotes()
     {
-        return $this->votes()->wherePivot('vote', Question::VOTE_DOWN);
+        return $this->votes()->wherePivot('vote', Question::VOTE_UP);
     }
 }
