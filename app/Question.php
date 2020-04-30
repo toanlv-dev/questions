@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class Question extends Model
 {
+    use VotableTrait;
     public const VOTE_DOWN = -1;
     public const VOTE_UP = 1;
 
@@ -79,20 +80,5 @@ class Question extends Model
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
-    }
-
-    public function votes()
-    {
-        return $this->morphToMany(User::class, 'votable');
-    }
-
-    public function downVotes()
-    {
-        return $this->votes()->wherePivot('vote', Question::VOTE_DOWN);
-    }
-
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', Question::VOTE_UP);
     }
 }
