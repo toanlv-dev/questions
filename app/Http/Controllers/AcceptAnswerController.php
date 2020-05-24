@@ -11,6 +11,11 @@ class AcceptAnswerController extends Controller
     {
         $this->authorize('accept', $answer);
         $answer->question->acceptAnswer($answer);
+        if(\request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Answer has been accept'
+            ]);
+        }
         return back()->with('success', 'Answer has been accept');
     }
 }

@@ -15,8 +15,14 @@ class VoteAnswerController extends Controller
     public function __invoke(Answer $answer, Request $request)
     {
        $vote = $request->get('vote');
-       auth()->user()->voteAnswer($answer, $vote);
-
+       $votesCount = auth()->user()->voteAnswer($answer, $vote);
+        if($request->expectsJson())
+        {
+            return response()->json([
+                'message' => 'Thanks for the vote',
+                'votesCount' => $votesCount
+            ]);
+        }
        return back();
     }
 }

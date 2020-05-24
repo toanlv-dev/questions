@@ -14,6 +14,13 @@ class Answer extends Model
         'body',
         'user_id'
     ];
+
+    protected $appends = [
+        'created_date',
+        'body_html',
+        'is_best'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }
