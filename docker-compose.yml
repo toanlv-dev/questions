@@ -9,8 +9,13 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     working_dir: /var/www/html
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker"
+      PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
+      XDEBUG_CONFIG: remote_host=10.108.0.28
     volumes:
       - ./:/var/www/html
+      - .docker/docker-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     depends_on:
       - db
       - redis
@@ -21,6 +26,7 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT}:80"
+#      - "9001:9001"
     volumes:
       - ./:/var/www/html
       - .docker/nginx.conf:/etc/nginx/conf.d/default.conf

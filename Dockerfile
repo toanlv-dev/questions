@@ -34,7 +34,15 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
 
 # Node
-RUN apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.7/main/ nodejs=8.9.3-r1
+RUN apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/ nodejs=12.15.0-r1
+
+# Npm
+RUN apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/ npm=12.15.0-r1
+
+# Xdebug
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install xdebug-2.7.0 \
+    && docker-php-ext-enable xdebug
 
 # Remove Cache
 RUN rm -rf /var/cache/apk/*
@@ -55,7 +63,7 @@ COPY . .
 RUN chown -R www-data:www-data .
 
 ENV ENABLE_CRONTAB 1
-ENV ENABLE_HORIZON 1
+ENV ENABLE_WORKER 1
 
 ENTRYPOINT ["sh", "/var/www/html/.docker/docker-entrypoint.sh"]
 
