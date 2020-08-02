@@ -1,27 +1,31 @@
 <template>
-    <div class="row mt-4" v-cloak>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h2>{{ title }} </h2>
-                        <hr>
-                        <answer @delete="remove(index)" v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
-                        <div class="text-center mt-2" v-if="nextUrl">
-                            <button class="btn btn-outline-secondary" @click="fetch(nextUrl)">
-                                Load more answers
-                            </button>
+    <div>
+        <div class="row mt-4" v-cloak>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h2>{{ title }} </h2>
+                            <hr>
+                            <answer @delete="remove(index)" v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
+                            <div class="text-center mt-2" v-if="nextUrl">
+                                <button class="btn btn-outline-secondary" @click="fetch(nextUrl)">
+                                    Load more answers
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <new-answer @created="add" :question-id="questionId"></new-answer>
     </div>
 
 </template>
 
 <script>
-    import answer from './Answer.vue'
+    import Answer from './Answer.vue'
+    import NewAnswer from "./NewAnswer";
     export default {
         name: "answers",
         props: ['question'],
@@ -40,6 +44,12 @@
         },
 
         methods: {
+
+            add(answer) {
+              this.answers.push(answer);
+              this.count++;
+            },
+
             remove  (index) {
                 this.answers.splice(index, 1);
                 this.count --;
@@ -60,7 +70,7 @@
             }
         },
         components: {
-            answer
+            Answer, NewAnswer
         }
     }
 </script>
