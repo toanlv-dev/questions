@@ -23,6 +23,7 @@ window.Vue = require('vue');
 Vue.component('user-info', require('./components/UserInfo.vue').default);
 Vue.component('answers', require('./components/Answers.vue').default);
 Vue.component('vote', require('./components/Vote.vue').default);
+Vue.component('question', require('./components/Question.vue').default);
 
 import VueIziToast from 'vue-izitoast';
 import Authorize from './authorization/authorize'
