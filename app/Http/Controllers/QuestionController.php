@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AskQuestionRequest;
 use App\Question;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class QuestionController extends Controller
 {
@@ -21,7 +24,7 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function index()
     {
@@ -33,7 +36,7 @@ class QuestionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create()
     {
@@ -44,7 +47,7 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AskQuestionRequest $request
      * @return RedirectResponse
      */
     public function store(AskQuestionRequest $request)
@@ -57,7 +60,7 @@ class QuestionController extends Controller
      * Display the specified resource.
      *
      * @param Question $question
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(Question $question)
     {
@@ -69,7 +72,8 @@ class QuestionController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Question $question
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     * @return Factory|View|void
+     * @throws AuthorizationException
      */
     public function edit(Question $question)
     {
@@ -80,9 +84,10 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param Question $question
      * @return Application|RedirectResponse|Redirector|void
+     * @throws AuthorizationException
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
